@@ -1704,7 +1704,7 @@ pre { /* Code block - determines code spacing between lines */
 <div id="style-guide" class="section level2 tabset">
 <h2>Style Guide</h2>
 <p>A programming style guide is an opinionated guide of programming conventions, style and best practices for a team or a project. It is not compulsory (youcanmanageyourcodewithoutit), but it will make your and your colleagues’ life easier in the future. All style guides are different, depending on the programming language characteristics and projects’ need. Actually, many decisions are arbitrary. However, the most important role of style guide is to ensure consistency, readability of the code and make it easier to write.</p>
-<p><em>Tidyverse</em> provides a well-documented <a href="https://style.tidyverse.org/"><em>tidyverse</em> style guide</a> that is used throughout the <em>tidyverse</em>. The style guide was derived from Google’s original R Style guide, but now <a href="https://google.github.io/styleguide/Rguide.html">Google’s R Style Guide</a> is derived from <em>tidyverse</em> style guide 😃.</p>
+<p><em>Tidyverse</em> provides a well-documented <a href="https://style.tidyverse.org/"><em>tidyverse</em> style guide</a> that is used throughout the <em>tidyverse</em>. The style guide was derived from Google’s original R Style guide, but now <a href="https://google.github.io/styleguide/Rguide.html">Google’s R Style Guide</a> is derived from <em>tidyverse</em> style guide 😆.</p>
 <div id="elements" class="section level3">
 <h3>Elements</h3>
 <table>
@@ -1756,9 +1756,9 @@ pre { /* Code block - determines code spacing between lines */
 # 80: --------------------------------------------------------------------------
 
 # libraries: -------------------------------------------------------------------
-library(tidyverse)</code></pre>
-<pre><code>## Warning: package 'tibble' was built under R version 3.6.2</code></pre>
-<pre class="r"><code># directories: -----------------------------------------------------------------
+library(tidyverse)
+
+# directories: -----------------------------------------------------------------
 
 # data: ------------------------------------------------------------------------
 
@@ -1945,11 +1945,11 @@ z = sample(100, 10000, replace = TRUE)
 print(microbenchmark(list(unique(z)), z %&gt;% unique %&gt;% list, unit = &quot;s&quot;))</code></pre>
 <pre><code>## Unit: seconds
 ##                   expr         min           lq         mean       median
-##        list(unique(z)) 0.000209565 0.0002219450 0.0002837173 0.0002328745
-##  z %&gt;% unique %&gt;% list 0.000290907 0.0003076885 0.0005048565 0.0003251660
-##            uq         max neval cld
-##  0.0002576855 0.001188469   100  a 
-##  0.0003853650 0.002276412   100   b</code></pre>
+##        list(unique(z)) 0.000216552 0.0002272955 0.0002917197 0.0002367545
+##  z %&gt;% unique %&gt;% list 0.000303140 0.0003302475 0.0004808177 0.0003573880
+##           uq        max neval cld
+##  0.000278909 0.00216653   100  a 
+##  0.000454569 0.00298186   100   b</code></pre>
 </div>
 </div>
 <div id="introduction-to-dplyr" class="section level2 tabset">
@@ -3236,9 +3236,9 @@ iris %&gt;%
 ##                                                                     expr
 ##  nhanes_adult %&gt;% group_by(Diabetes) %&gt;% summarise(mean_age = mean(Age))
 ##                     aggregate(Age ~ Diabetes, data = nhanes_adult, mean)
-##          min           lq        mean      median          uq         max neval
-##  0.000789023 0.0009352555 0.001713444 0.001113187 0.001417565 0.009377347   100
-##  0.001815287 0.0020882880 0.003676781 0.002289803 0.003375582 0.014752440   100
+##          min          lq        mean      median          uq         max neval
+##  0.000795181 0.001018433 0.001650087 0.001120673 0.001553717 0.007176691   100
+##  0.001801434 0.002086282 0.002875877 0.002192163 0.002607621 0.010351981   100
 ##  cld
 ##   a 
 ##    b</code></pre>
