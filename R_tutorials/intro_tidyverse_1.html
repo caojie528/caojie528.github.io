@@ -1944,12 +1944,12 @@ set.seed(2020)
 z = sample(100, 10000, replace = TRUE)
 print(microbenchmark(list(unique(z)), z %&gt;% unique %&gt;% list, unit = &quot;s&quot;))</code></pre>
 <pre><code>## Unit: seconds
-##                   expr         min           lq        mean       median
-##        list(unique(z)) 0.000309230 0.0003742775 0.001188533 0.0004248645
-##  z %&gt;% unique %&gt;% list 0.000575428 0.0006433085 0.001861429 0.0007344505
-##            uq        max neval cld
-##  0.0007201475 0.01975213   100   a
-##  0.0013116610 0.01781672   100   a</code></pre>
+##                   expr         min           lq         mean       median
+##        list(unique(z)) 0.000212061 0.0002247725 0.0002774012 0.0002385865
+##  z %&gt;% unique %&gt;% list 0.000292228 0.0003124835 0.0004195065 0.0003473350
+##            uq         max neval cld
+##  0.0002861905 0.000652341   100  a 
+##  0.0004170245 0.001469718   100   b</code></pre>
 </div>
 </div>
 <div id="introduction-to-dplyr" class="section level2 tabset">
@@ -2059,10 +2059,10 @@ dim(nhanes_adult)[1]</code></pre>
 <pre class="r"><code>demo_by_diabetes = 
   nhanes_adult %&gt;% 
   group_by(Diabetes) %&gt;% 
-  summarise(N = n(), 
-            mean_age = mean(Age), 
-            std_age = sd(Age), 
-            prop_female = sum(Gender == &quot;female&quot;)/ N)
+  dplyr::summarize(N = n(), 
+                   mean_age = mean(Age), 
+                   std_age = sd(Age), 
+                   prop_female = sum(Gender == &quot;female&quot;)/ N)
 demo_by_diabetes</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -2601,7 +2601,6 @@ NHANES %&gt;%
 </table></div>
 <p>In addition to all the defaults, you may also add or modify features of the table 1 as you need. For example, changing the statistics you would like to report in table 1, adding associated p-values, changing number of digits, formatting labels, etc. They are all made possible for editing in simple syntax. The table it returns is ready for presentation and publication.</p>
 <pre class="r"><code># A personalized version
-test = 
 NHANES %&gt;% 
   # Select population
   filter(SurveyYr == &quot;2009_10&quot;, Age &gt;= 18) %&gt;% 
@@ -2624,14 +2623,580 @@ NHANES %&gt;%
   bold_p(t = 0.05) %&gt;% 
   # Highlight labels
   bold_labels</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#fkbumxlitz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#fkbumxlitz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#fkbumxlitz .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#fkbumxlitz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#fkbumxlitz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#fkbumxlitz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#fkbumxlitz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#fkbumxlitz .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#fkbumxlitz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#fkbumxlitz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#fkbumxlitz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#fkbumxlitz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#fkbumxlitz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#fkbumxlitz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#fkbumxlitz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fkbumxlitz .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fkbumxlitz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#fkbumxlitz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fkbumxlitz .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#fkbumxlitz .gt_left {
+  text-align: left;
+}
+
+#fkbumxlitz .gt_center {
+  text-align: center;
+}
+
+#fkbumxlitz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#fkbumxlitz .gt_font_normal {
+  font-weight: normal;
+}
+
+#fkbumxlitz .gt_font_bold {
+  font-weight: bold;
+}
+
+#fkbumxlitz .gt_font_italic {
+  font-style: italic;
+}
+
+#fkbumxlitz .gt_super {
+  font-size: 65%;
+}
+
+#fkbumxlitz .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="fkbumxlitz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>No</strong>, N = 3391<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Yes</strong>, N = 381<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>p-value</strong><sup class="gt_footnote_marks">2</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left" style="font-weight: bold;">Gender</td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center">0.10</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">female</td>
+      <td class="gt_row gt_center">1757 (52%)</td>
+      <td class="gt_row gt_center">180 (47%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">male</td>
+      <td class="gt_row gt_center">1634 (48%)</td>
+      <td class="gt_row gt_center">201 (53%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="font-weight: bold;">Age</td>
+      <td class="gt_row gt_center">44.3 (17.0)</td>
+      <td class="gt_row gt_center">60.8 (12.7)</td>
+      <td class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="font-weight: bold;">BMI</td>
+      <td class="gt_row gt_center">28 (6)</td>
+      <td class="gt_row gt_center">33 (9)</td>
+      <td class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+      <td class="gt_row gt_center">32</td>
+      <td class="gt_row gt_center">4</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="font-weight: bold;">Race1</td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center" style="font-weight: bold;">0.005</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Black</td>
+      <td class="gt_row gt_center">373 (11%)</td>
+      <td class="gt_row gt_center">65 (17%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Hispanic</td>
+      <td class="gt_row gt_center">167 (4.9%)</td>
+      <td class="gt_row gt_center">20 (5.2%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Mexican</td>
+      <td class="gt_row gt_center">316 (9.3%)</td>
+      <td class="gt_row gt_center">36 (9.4%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">White</td>
+      <td class="gt_row gt_center">2302 (68%)</td>
+      <td class="gt_row gt_center">229 (60%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Other</td>
+      <td class="gt_row gt_center">233 (6.9%)</td>
+      <td class="gt_row gt_center">31 (8.1%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="font-weight: bold;">Education</td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">8th Grade</td>
+      <td class="gt_row gt_center">183 (5.6%)</td>
+      <td class="gt_row gt_center">56 (15%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">9 - 11th Grade</td>
+      <td class="gt_row gt_center">415 (13%)</td>
+      <td class="gt_row gt_center">66 (17%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">High School</td>
+      <td class="gt_row gt_center">761 (23%)</td>
+      <td class="gt_row gt_center">77 (20%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Some College</td>
+      <td class="gt_row gt_center">996 (31%)</td>
+      <td class="gt_row gt_center">111 (29%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">College Grad</td>
+      <td class="gt_row gt_center">900 (28%)</td>
+      <td class="gt_row gt_center">70 (18%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+      <td class="gt_row gt_center">136</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="font-weight: bold;">MaritalStatus</td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Divorced</td>
+      <td class="gt_row gt_center">298 (9.1%)</td>
+      <td class="gt_row gt_center">55 (15%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">LivePartner</td>
+      <td class="gt_row gt_center">254 (7.8%)</td>
+      <td class="gt_row gt_center">12 (3.2%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Married</td>
+      <td class="gt_row gt_center">1826 (56%)</td>
+      <td class="gt_row gt_center">223 (59%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">NeverMarried</td>
+      <td class="gt_row gt_center">617 (19%)</td>
+      <td class="gt_row gt_center">26 (6.9%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Separated</td>
+      <td class="gt_row gt_center">88 (2.7%)</td>
+      <td class="gt_row gt_center">11 (2.9%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Widowed</td>
+      <td class="gt_row gt_center">182 (5.6%)</td>
+      <td class="gt_row gt_center">52 (14%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+      <td class="gt_row gt_center">126</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="font-weight: bold;">Race</td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center"></td>
+      <td class="gt_row gt_center" style="font-weight: bold;">0.005</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Black</td>
+      <td class="gt_row gt_center">373 (11%)</td>
+      <td class="gt_row gt_center">65 (17%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Hispanic</td>
+      <td class="gt_row gt_center">167 (4.9%)</td>
+      <td class="gt_row gt_center">20 (5.2%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Mexican</td>
+      <td class="gt_row gt_center">316 (9.3%)</td>
+      <td class="gt_row gt_center">36 (9.4%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">White</td>
+      <td class="gt_row gt_center">2302 (68%)</td>
+      <td class="gt_row gt_center">229 (60%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Other</td>
+      <td class="gt_row gt_center">233 (6.9%)</td>
+      <td class="gt_row gt_center">31 (8.1%)</td>
+      <td class="gt_row gt_center"></td>
+    </tr>
+  </tbody>
+  
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td colspan="4">
+        <p class="gt_footnote">
+          <sup class="gt_footnote_marks">
+            <em>1</em>
+          </sup>
+           
+          Statistics presented: n (%); mean (SD)
+          <br />
+        </p>
+        <p class="gt_footnote">
+          <sup class="gt_footnote_marks">
+            <em>2</em>
+          </sup>
+           
+          Statistical tests performed: chi-square test of independence; Wilcoxon rank-sum test
+          <br />
+        </p>
+      </td>
+    </tr>
+  </tfoot>
+</table></div>
 <p>You can save the table generate to a local file as a html file, an image, or LaTeX.</p>
 <pre class="r"><code># Save as .tex file
 iris %&gt;% 
   tbl_summary(by = Species) %&gt;% 
   as_gt %&gt;% 
-  gt::gtsave(filename = &quot;iris.tex&quot;)
-
-test %&gt;% as_gt %&gt;% gt::gtsave(filename = &quot;test.pdf&quot;)</code></pre>
+  gt::gtsave(filename = &quot;iris.tex&quot;)</code></pre>
 <p>There are more options available for <code>tbl_summary</code>. Also, this package can automatically generate publication-ready tables for results of common regression models, such as logistic regression, Cox proportioanl hazards regression. I recommend you refer to their <a href="https://cran.r-project.org/web/packages/gtsummary/gtsummary.pdf">documentation</a> and <a href="http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html">tutorial</a> for more details.</p>
 </div>
 </div>
@@ -2671,9 +3236,9 @@ test %&gt;% as_gt %&gt;% gt::gtsave(filename = &quot;test.pdf&quot;)</code></pre
 ##                                                                     expr
 ##  nhanes_adult %&gt;% group_by(Diabetes) %&gt;% summarise(mean_age = mean(Age))
 ##                     aggregate(Age ~ Diabetes, data = nhanes_adult, mean)
-##          min          lq       mean      median          uq        max neval
-##  0.000823610 0.001054906 0.00213992 0.001302257 0.002426300 0.01197947   100
-##  0.001760678 0.002322300 0.00506258 0.003011364 0.005213228 0.02500253   100
+##          min           lq        mean      median          uq         max neval
+##  0.000801768 0.0009977865 0.002157524 0.001168598 0.002795586 0.009958614   100
+##  0.001763950 0.0020953145 0.003514844 0.002243508 0.003162346 0.015816304   100
 ##  cld
 ##   a 
 ##    b</code></pre>
