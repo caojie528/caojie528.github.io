@@ -1704,7 +1704,7 @@ pre { /* Code block - determines code spacing between lines */
 <div id="style-guide" class="section level2 tabset">
 <h2>Style Guide</h2>
 <p>A programming style guide is an opinionated guide of programming conventions, style and best practices for a team or a project. It is not compulsory (youcanmanageyourcodewithoutit), but it will make your and your colleagues’ life easier in the future. All style guides are different, depending on the programming language characteristics and projects’ need. Actually, many decisions are arbitrary. However, the most important role of style guide is to ensure consistency, readability of the code and make it easier to write.</p>
-<p><em>Tidyverse</em> provides a well-documented <a href="https://style.tidyverse.org/"><em>tidyverse</em> style guide</a> that is used throughout the <em>tidyverse</em>. The style guide was derived from Google’s original R Style guide, but now <a href="https://google.github.io/styleguide/Rguide.html">Google’s R Style Guide</a> is derived from <em>tidyverse</em> style guide 😃.</p>
+<p><em>Tidyverse</em> provides a well-documented <a href="https://style.tidyverse.org/"><em>tidyverse</em> style guide</a> that is used throughout the <em>tidyverse</em>. The style guide was derived from Google’s original R Style guide, but now <a href="https://google.github.io/styleguide/Rguide.html">Google’s R Style Guide</a> is derived from <em>tidyverse</em> style guide 😆.</p>
 <div id="elements" class="section level3">
 <h3>Elements</h3>
 <table>
@@ -1945,11 +1945,11 @@ z = sample(100, 10000, replace = TRUE)
 print(microbenchmark(list(unique(z)), z %&gt;% unique %&gt;% list, unit = &quot;s&quot;))</code></pre>
 <pre><code>## Unit: seconds
 ##                   expr         min           lq         mean       median
-##        list(unique(z)) 0.000212061 0.0002247725 0.0002774012 0.0002385865
-##  z %&gt;% unique %&gt;% list 0.000292228 0.0003124835 0.0004195065 0.0003473350
-##            uq         max neval cld
-##  0.0002861905 0.000652341   100  a 
-##  0.0004170245 0.001469718   100   b</code></pre>
+##        list(unique(z)) 0.000211584 0.0002193505 0.0002851641 0.0002367475
+##  z %&gt;% unique %&gt;% list 0.000289675 0.0003054490 0.0004016682 0.0003267175
+##           uq         max neval cld
+##  0.000261518 0.001142527   100  a 
+##  0.000363371 0.003468559   100   b</code></pre>
 </div>
 </div>
 <div id="introduction-to-dplyr" class="section level2 tabset">
@@ -3197,7 +3197,7 @@ iris %&gt;%
   tbl_summary(by = Species) %&gt;% 
   as_gt %&gt;% 
   gt::gtsave(filename = &quot;iris.tex&quot;)</code></pre>
-<p>There are more options available for <code>tbl_summary</code>. Also, this package can automatically generate publication-ready tables for results of common regression models, such as logistic regression, Cox proportioanl hazards regression. I recommend you refer to their <a href="https://cran.r-project.org/web/packages/gtsummary/gtsummary.pdf">documentation</a> and <a href="http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html">tutorial</a> for more details.</p>
+<p>There are more options available for <code>tbl_summary</code>. Also, this package can automatically generate publication-ready tables for results of common regression models, such as logistic regression, Cox proportional hazards regression. I recommend you refer to their <a href="https://cran.r-project.org/web/packages/gtsummary/gtsummary.pdf">documentation</a> and <a href="http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html">tutorial</a> for more details.</p>
 </div>
 </div>
 <div id="why-dplyr" class="section level3">
@@ -3236,9 +3236,9 @@ iris %&gt;%
 ##                                                                     expr
 ##  nhanes_adult %&gt;% group_by(Diabetes) %&gt;% summarise(mean_age = mean(Age))
 ##                     aggregate(Age ~ Diabetes, data = nhanes_adult, mean)
-##          min           lq        mean      median          uq         max neval
-##  0.000801768 0.0009977865 0.002157524 0.001168598 0.002795586 0.009958614   100
-##  0.001763950 0.0020953145 0.003514844 0.002243508 0.003162346 0.015816304   100
+##          min           lq        mean      median          uq        max neval
+##  0.000785307 0.0009188105 0.002324519 0.001113110 0.001831506 0.01451032   100
+##  0.001799129 0.0020636775 0.003714285 0.002196389 0.002975116 0.02032764   100
 ##  cld
 ##   a 
 ##    b</code></pre>
